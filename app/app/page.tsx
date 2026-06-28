@@ -1,5 +1,5 @@
-import WelcomeScreen from "../components/onboarding/WelcomeScreen";
+import GoalSelectionScreen from "@/components/onboarding/GoalSelectionScreen";
 
 export default function Home() {
-  return <WelcomeScreen />;
+  return <GoalSelectionScreen />;
 }

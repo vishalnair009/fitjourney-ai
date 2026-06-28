@@ -1,25 +1,33 @@
 type PrimaryButtonProps = {
     children: React.ReactNode;
+    disabled?: boolean;
+    onClick?: () => void;
   };
   
   export default function PrimaryButton({
     children,
+    disabled = false,
+    onClick,
   }: PrimaryButtonProps) {
     return (
       <button
-        className="
+        disabled={disabled}
+        onClick={onClick}
+        className={`
           w-full
-          max-w-sm
           h-14
           rounded-full
-          bg-green-700
-          hover:bg-green-700
           text-white
           font-semibold
           text-lg
-          transition
-          duration-200
-        "
+          transition-all
+          duration-300
+          ${
+            disabled
+              ? "bg-gray-300 cursor-not-allowed"
+              : "bg-green-600 hover:bg-green-700"
+          }
+        `}
       >
         {children}
       </button>
