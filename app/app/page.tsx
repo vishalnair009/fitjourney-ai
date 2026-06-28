@@ -1,5 +1,5 @@
-import GoalSelectionScreen from "@/components/onboarding/GoalSelectionScreen";
+import OnboardingFlow from "@/components/onboarding/OnboardingFlow";
 
 export default function Home() {
-  return <GoalSelectionScreen />;
+  return <OnboardingFlow />;
 }

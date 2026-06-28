@@ -1,24 +1,29 @@
+"use client";
+
 import PrimaryButton from "../ui/PrimaryButton";
 
-export default function WelcomeScreen() {
+type WelcomeScreenProps = {
+  onContinue: () => void;
+};
+
+export default function WelcomeScreen({
+  onContinue,
+}: WelcomeScreenProps) {
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center bg-white px-6">
+    <section className="min-h-screen flex flex-col items-center justify-center px-8 bg-white">
 
-      {/* Placeholder Image */}
-      <div className="w-56 h-40 rounded-lg bg-gray-200 mb-16" />
+      <div className="text-7xl">💪</div>
 
-      <h1 className="text-5xl font-bold text-center leading-tight">
-        Every great journey
-        <br />
-        begins with a decision.
+      <h1 className="mt-10 text-5xl font-bold text-center text-gray-900">
+        FitJourney AI
       </h1>
 
-      <p className="mt-6 text-gray-500 text-center text-lg">
-        You don't have to walk this journey alone.
+      <p className="mt-6 text-center text-gray-600 max-w-sm leading-7">
+        Your personal AI fitness coach.
       </p>
 
-      <div className="mt-20 w-full max-w-sm">
-        <PrimaryButton>
+      <div className="mt-16 w-full max-w-sm">
+        <PrimaryButton onClick={onContinue}>
           Meet Drona
         </PrimaryButton>
       </div>
