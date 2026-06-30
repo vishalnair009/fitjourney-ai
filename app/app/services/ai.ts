@@ -1,8 +1,10 @@
 import { User } from "../store/userStore";
+import { DailyProgress } from "../store/dailyStore";
 
 export async function askDrona(
   message: string,
-  user: User
+  user: User,
+  progress: DailyProgress
 ): Promise<string> {
   const response = await fetch("/api/chat", {
     method: "POST",
@@ -12,6 +14,7 @@ export async function askDrona(
     body: JSON.stringify({
       message,
       user,
+      progress,
     }),
   });
 

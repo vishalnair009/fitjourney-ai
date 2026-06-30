@@ -5,6 +5,7 @@ import PrimaryButton from "../ui/PrimaryButton";
 import { useChatStore } from "../../app/store/chatStore";
 import { askDrona } from "../../app/services/ai";
 import { useUserStore } from "../../app/store/userStore";
+import { useDailyStore } from "../../app/store/dailyStore";
 
 type ChatScreenProps = {
   onBack: () => void;
@@ -21,6 +22,7 @@ export default function ChatScreen({
   const addUserMessage = useChatStore((state) => state.addUserMessage);
   const addDronaMessage = useChatStore((state) => state.addDronaMessage);
   const user = useUserStore((state) => state.user);
+  const progress = useDailyStore((state) => state.progress);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({
@@ -40,8 +42,11 @@ export default function ChatScreen({
     setIsTyping(true);
 
     try {
-      const reply = await askDrona(text, user);
-
+      const reply = await askDrona(
+        text,
+        user,
+        progress
+      );
       setIsTyping(false);
 
       addDronaMessage(reply);

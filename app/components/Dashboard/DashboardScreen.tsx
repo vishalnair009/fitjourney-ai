@@ -1,6 +1,7 @@
 "use client";
 
 import { useUserStore } from "../../app/store/userStore";
+import { useDailyStore } from "../../app/store/dailyStore";
 import ProgressCard from "./ProgressCard";
 import WaterCard from "./WaterCard";
 import MissionCard from "./MissionCard";
@@ -14,6 +15,8 @@ export default function DashboardScreen({
   onOpenChat,
 }: DashboardScreenProps) {
   const user = useUserStore((state) => state.user);
+  const progress = useDailyStore((state) => state.progress);
+  const setWater = useDailyStore((state) => state.setWater);
 
   return (
     <section className="min-h-screen bg-gray-100">
@@ -55,17 +58,45 @@ export default function DashboardScreen({
             value={`${user.targetWeight} kg`}
           />
 
-          <WaterCard />
+<div className="bg-white rounded-2xl p-5 shadow-sm border">
 
-          <DashboardCard
-            title="👣 Steps"
-            value="0 / 8000"
-          />
+  <h3 className="text-gray-500 text-sm">
+    💧 Water Intake
+  </h3>
 
-          <DashboardCard
-            title="🏋 Workout"
-            value="Not Started"
-          />
+  <p className="text-2xl font-bold mt-2">
+    {progress.water.toFixed(2)} L / 4 L
+  </p>
+
+  <button
+    onClick={() =>
+      setWater(
+        Math.min(
+          progress.water + 0.25,
+          4
+        )
+      )
+    }
+    className="mt-4 w-full rounded-xl bg-blue-500 text-white py-3 hover:bg-blue-600 transition"
+  >
+    +250 ml
+  </button>
+
+</div>
+
+<DashboardCard
+  title="👣 Steps"
+  value={`${progress.steps} / 8000`}
+/>
+
+<DashboardCard
+  title="🏋 Workout"
+  value={
+    progress.workoutCompleted
+      ? "Completed ✅"
+      : "Not Started"
+  }
+/>
 
           <DashboardCard
             title="🔥 Current Streak"
