@@ -1,11 +1,13 @@
 "use client";
 
+import CoachCard from "./CoachCard";
 import { useUserStore } from "../../app/store/userStore";
 import { useDailyStore } from "../../app/store/dailyStore";
 import ProgressCard from "./ProgressCard";
-import WaterCard from "./WaterCard";
 import MissionCard from "./MissionCard";
 import DronaCard from "./DronaCard";
+import { useEffect, useState } from "react";
+import { getDailyBrief } from "../../app/services/dashboardAI";
 
 type DashboardScreenProps = {
   onOpenChat: () => void;
@@ -16,6 +18,32 @@ export default function DashboardScreen({
 }: DashboardScreenProps) {
   const user = useUserStore((state) => state.user);
   const progress = useDailyStore((state) => state.progress);
+  const [dailyBrief, setDailyBrief] = useState(
+    "🤖 Drona is preparing your daily briefing..."
+  );
+  useEffect(() => {
+    console.log("Loading AI briefing...");
+  
+    async function loadBrief() {
+      try {
+        const brief = await getDailyBrief(user, progress);
+  
+        console.log("Brief received:", brief);
+  
+        setDailyBrief(brief);
+      } catch (err) {
+        console.error("Dashboard Error:", err);
+  
+        setDailyBrief(
+          "Good morning! Let's have a fantastic day and stay consistent. 💪"
+        );
+      }
+    }
+  
+    loadBrief();
+  }, []);
+
+
   const setWater = useDailyStore((state) => state.setWater);
 
   return (
@@ -29,6 +57,9 @@ export default function DashboardScreen({
         <div className="mt-6">
           <DronaCard onOpenChat={onOpenChat} />
         </div>
+        <div className="mt-6">
+  <CoachCard message={dailyBrief} />
+</div>
 
         <div className="mt-8">
           <MissionCard />
