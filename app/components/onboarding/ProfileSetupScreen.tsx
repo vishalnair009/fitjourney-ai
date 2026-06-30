@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import PrimaryButton from "../ui/PrimaryButton";
+import { useUserStore } from "../../app/store/userStore";
 
 type ProfileSetupScreenProps = {
   onContinue: () => void;
@@ -15,6 +16,7 @@ export default function ProfileSetupScreen({
   const [height, setHeight] = useState("180");
   const [weight, setWeight] = useState("98");
   const [targetWeight, setTargetWeight] = useState("80");
+  const updateUser = useUserStore((state) => state.updateUser);
 
   const isValid =
     name &&
@@ -75,12 +77,22 @@ export default function ProfileSetupScreen({
         </div>
 
         <div className="mt-10">
-          <PrimaryButton
-            disabled={!isValid}
-            onClick={onContinue}
-          >
-            Continue
-          </PrimaryButton>
+        <PrimaryButton
+  disabled={!isValid}
+  onClick={() => {
+    updateUser({
+      name,
+      age: Number(age),
+      height: Number(height),
+      weight: Number(weight),
+      targetWeight: Number(targetWeight),
+    });
+
+    onContinue();
+  }}
+>
+  Continue
+</PrimaryButton>
         </div>
 
       </div>

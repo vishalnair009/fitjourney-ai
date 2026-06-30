@@ -1,18 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import ProfileSetupScreen from "./ProfileSetupScreen";
-import DashboardScreen from "../dashboard/DashboardScreen";
 
 import WelcomeScreen from "./WelcomeScreen";
 import CoachIntroScreen from "./CoachIntroScreen";
 import GoalSelectionScreen from "./GoalSelectionScreen";
+import ProfileSetupScreen from "./ProfileSetupScreen";
+import DashboardScreen from "../dashboard/DashboardScreen";
+import ChatScreen from "../chat/ChatScreen";
 
 export default function OnboardingFlow() {
-    const [screen, setScreen] = useState<
-  "welcome" | "coach" | "goal" | "profile" | "dashboard"
->("welcome");
- 
+  const [screen, setScreen] = useState<
+    "welcome" | "coach" | "goal" | "profile" | "dashboard" | "chat"
+  >("welcome");
 
   switch (screen) {
     case "welcome":
@@ -32,18 +32,30 @@ export default function OnboardingFlow() {
     case "goal":
       return (
         <GoalSelectionScreen
-  onContinue={() => setScreen("profile")}
-
+          onContinue={() => setScreen("profile")}
         />
       );
-      case "profile":
-  return (
-    <ProfileSetupScreen
-      onContinue={() => setScreen("dashboard")}
-    />
-  );
-  case "dashboard":
-    return <DashboardScreen />;
+
+    case "profile":
+      return (
+        <ProfileSetupScreen
+          onContinue={() => setScreen("dashboard")}
+        />
+      );
+
+    case "dashboard":
+      return (
+        <DashboardScreen
+          onOpenChat={() => setScreen("chat")}
+        />
+      );
+
+    case "chat":
+      return (
+        <ChatScreen
+          onBack={() => setScreen("dashboard")}
+        />
+      );
 
     default:
       return null;
